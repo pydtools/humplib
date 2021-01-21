@@ -52,9 +52,3 @@ def json_hump2underline(hump_json_str):
         attr_ptn, lambda x: '"' + hump2underline(x.group(1)) +
                             '" :', hump_json_str)
     return sub
-
-
-
-
-if __name__ == '__main__':
-    main()
