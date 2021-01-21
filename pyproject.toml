@@ -26,3 +26,4 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.urls]
 "Bug Tracker" = "https://github.com/pydtools/humplib/issues"
 "github" = "https://github.com/pydtools/humplib/"
+"Documentation" = "https://github.com/pydtools/humplib/wiki"
