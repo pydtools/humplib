@@ -1,3 +1,3 @@
-__version__ = '0.1.1'
+__version__ = '0.1.2'
 
 from .tools import underline2hump, hump2underline, json_hump2underline
