@@ -30,11 +30,13 @@ def underline2hump(underline_str, code='utf8'):
     """
     下划线形式字符串转成驼峰形式
     :param underline_str: 下划线形式字符串
+    :param code: utf8
     :return: 驼峰形式字符串
     """
     if isinstance(underline_str, bytes):
         underline_str = underline_str.decode(code)
-    # 这里re.sub()函数第二个替换参数用到了一个匿名回调函数，回调函数的参数x为一个匹配对象，返回值为一个处理后的字符串
+    # 这里re.sub()函数第二个替换参数用到了一个匿名回调函数，
+    # 回调函数的参数x为一个匹配对象，返回值为一个处理后的字符串
     sub = re.sub(r'(_\w)', lambda x: x.group(1)[1].upper(), underline_str)
     return sub
 
@@ -42,8 +44,10 @@ def underline2hump(underline_str, code='utf8'):
 def json_hump2underline(hump_json_str, code='utf8'):
     """
     把一个json字符串中的所有字段名都从驼峰形式替换成下划线形式。
-    注意点：因为考虑到json可能具有多层嵌套的复杂结构，所以这里直接采用正则文本替换的方式进行处理，而不是采用把json转成字典再进行处理的方式
+    注意点：因为考虑到json可能具有多层嵌套的复杂结构，
+    所以这里直接采用正则文本替换的方式进行处理，而不是采用把json转成字典再进行处理的方式
     :param hump_json_str: 字段名为驼峰形式的json字符串
+    :param code: utf8
     :return: 字段名为下划线形式的json字符串
     """
     if isinstance(hump_json_str, bytes):
