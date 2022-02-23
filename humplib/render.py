@@ -19,11 +19,11 @@ LONG_SEPARATORS = (', ', ': ')
 INDENT_SEPARATORS = (',', ': ')
 
 
-def hump_json_renderer(data, indent=None,
-                       ensure_ascii=UNICODE_JSON,
-                       allow_nan=not COMPACT_JSON,
-                       separators=INDENT_SEPARATORS,
-                       ):
+def hump_json_renderer_str(data, indent=None,
+                           ensure_ascii=UNICODE_JSON,
+                           allow_nan=not COMPACT_JSON,
+                           separators=INDENT_SEPARATORS,
+                           ):
     """
     Convert to camel case and use double quotes
     1
@@ -49,7 +49,30 @@ def hump_json_renderer(data, indent=None,
     # that is a strict javascript subset.
     # See: http://timelessrepo.com/json-isnt-a-javascript-subset
     ret = ret.replace('\u2028', '\\u2028').replace('\u2029', '\\u2029')
-    return ret.encode()
+    return ret
+
+
+def hump_json_renderer_byte(data, indent=None,
+                            ensure_ascii=UNICODE_JSON,
+                            allow_nan=not COMPACT_JSON,
+                            separators=INDENT_SEPARATORS,
+                            ):
+    """
+
+    :param data:
+    :param indent:
+    :param ensure_ascii:
+    :param allow_nan:
+    :param separators:
+    :return:
+    """
+    ret_str = hump_json_renderer_str(data,
+                                     indent=indent,
+                                     ensure_ascii=ensure_ascii,
+                                     allow_nan=allow_nan,
+                                     separators=separators,
+                                     )
+    return ret_str.encode()
 
 
 def main():
@@ -57,7 +80,7 @@ def main():
         "a": 1,
         "a_b": 1
     }
-    ret = hump_json_renderer(data)
+    ret = hump_json_renderer_str(data)
     print(ret)
     pass
 
