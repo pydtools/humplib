@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "humplib"
-version = "0.1.4"
+version = "0.1.5"
 description = "a hump to underline tool"
 authors = ["huoyinghui <yhhuo@yunjinginc.com>"]
 homepage = "https://github.com/pydtools/humplib/"
