@@ -6,6 +6,12 @@ doc:
 import json
 import re
 
+from humplib.dumps import dumps
+
+
+pattern_hump2under = re.compile(r'"\s*(\w+)\s*"\s*:')
+pattern_json_under2hump = re.compile(r'(_\w+\":)')
+
 
 def str_to_json(s):
     if not s:
@@ -41,6 +47,43 @@ def underline2hump(underline_str, code='utf8'):
     return sub
 
 
+def key_to_upper(x):
+    """
+    x.group(1)[0] 是"_"
+
+    :param x:
+    :return:
+    """
+    n = x.group(1)[1:]
+    return str(n).capitalize()
+
+
+def json_str_underline2hump(json_str: str=None)->str:
+    """
+    json snake -> hump
+
+    匹配所有的json key中包含下划线开始的键以":结尾
+
+    :param json_str: 标准json 不使用单引号和nan
+    :return:
+    """
+    # return re.sub(r"(_\w+\":)", key_to_upper, json_str)
+    return re.sub(pattern_json_under2hump, key_to_upper, json_str)
+
+
+def json_underline2hump(json_obj: dict=None)->str:
+    """
+    json snake -> hump
+
+    匹配所有的json key中包含下划线开始的键以":结尾
+
+    :param json_obj: 标准json 不使用单引号和nan
+    :return:
+    """
+    json_str = dumps(json_obj)
+    return json_str_underline2hump(json_str=json_str)
+
+
 def json_hump2underline(hump_json_str, code='utf8'):
     """
     把一个json字符串中的所有字段名都从驼峰形式替换成下划线形式。
@@ -54,9 +97,9 @@ def json_hump2underline(hump_json_str, code='utf8'):
         hump_json_str = hump_json_str.decode(code)
     # 从json字符串中匹配字段名的正则
     # 注：这里的字段名只考虑由英文字母、数字、下划线组成
-    attr_ptn = re.compile(r'"\s*(\w+)\s*"\s*:')
+    # attr_ptn = re.compile(r'"\s*(\w+)\s*"\s*:')
     # 使用hump2underline函数作为re.sub函数第二个参数的回调函数
     sub = re.sub(
-        attr_ptn, lambda x: '"' + hump2underline(x.group(1)) +
+        pattern_hump2under, lambda x: '"' + hump2underline(x.group(1)) +
                             '" :', hump_json_str)
     return sub

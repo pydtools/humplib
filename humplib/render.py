@@ -5,46 +5,19 @@ doc:
 参考drf JSONRenderer/ HumpJSONRenderer
 
 """
-import json
-
-from humplib import underline2hump
-
-UNICODE_JSON = True,
-COMPACT_JSON = True,
-
-# `separators` argument to `json.dumps()` differs between 2.x and 3.x
-# See: https://bugs.python.org/issue22767
-SHORT_SEPARATORS = (',', ':')
-LONG_SEPARATORS = (', ', ': ')
-INDENT_SEPARATORS = (',', ': ')
+from humplib.tools import json_underline2hump
 
 
-def hump_json_renderer_str(data, indent=None,
-                           ensure_ascii=UNICODE_JSON,
-                           allow_nan=not COMPACT_JSON,
-                           separators=INDENT_SEPARATORS,
-                           ):
+def hump_json_renderer_str(data: dict=None)->str:
     """
     Convert to camel case and use double quotes
     1
     b'{"a": 1,"aB": 1}'
 
     :param data:
-    :param indent:
-    :param ensure_ascii:
-    :param allow_nan:
-    :param separators:
     :return:
     """
-    ret = json.dumps(
-        data, cls=json.JSONEncoder,
-        indent=indent,
-        ensure_ascii=ensure_ascii,
-        allow_nan=allow_nan,
-        separators=separators
-    )
-    ret = underline2hump(ret)
-
+    ret = json_underline2hump(json_obj=data)
     # We always fully escape \u2028 and \u2029 to ensure we output JSON
     # that is a strict javascript subset.
     # See: http://timelessrepo.com/json-isnt-a-javascript-subset
@@ -52,33 +25,24 @@ def hump_json_renderer_str(data, indent=None,
     return ret
 
 
-def hump_json_renderer_byte(data, indent=None,
-                            ensure_ascii=UNICODE_JSON,
-                            allow_nan=not COMPACT_JSON,
-                            separators=INDENT_SEPARATORS,
-                            ):
+def hump_json_renderer_byte(data: dict=None):
     """
 
     :param data:
-    :param indent:
-    :param ensure_ascii:
-    :param allow_nan:
-    :param separators:
     :return:
     """
-    ret_str = hump_json_renderer_str(data,
-                                     indent=indent,
-                                     ensure_ascii=ensure_ascii,
-                                     allow_nan=allow_nan,
-                                     separators=separators,
-                                     )
+    ret_str = hump_json_renderer_str(data=data)
     return ret_str.encode()
 
 
 def main():
     data = {
-        "a": 1,
-        "a_b": 1
+        'name': 'compile',
+        'params': {
+            'bdg': '1758431528494305280',
+            'is_publish': True,
+            'token': 'aa.bb.Fx93qRLDHsrQPp8ab1C6Lg4_pnM'
+        }
     }
     ret = hump_json_renderer_str(data)
     print(ret)

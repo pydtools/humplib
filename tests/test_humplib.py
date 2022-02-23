@@ -1,3 +1,4 @@
+
 from humplib import (
     __version__,
     hump2underline,
@@ -6,14 +7,29 @@ from humplib import (
     hump_json_renderer_str,
 )
 from humplib import underline2hump
+from humplib.tools import json_underline2hump
 
 
 def test_version():
-    assert __version__ == '0.1.4'
+    assert __version__ == '0.1.5'
 
 
 def test_underline2hump():
     assert underline2hump("hello_word") == "helloWord"
+
+
+def test_json_underline2hump():
+    data = {
+        'name': 'compile',
+        'params': {
+            'bdg': '1758431528494305280',
+            'is_publish': True,
+            'token': 'aa.bb.Fx93qRLDHsrQPp8ab1C6Lg4_pnM'
+        }
+    }
+
+    ret = json_underline2hump(data)
+    assert ret == '{"name": "compile","params": {"bdg": "1758431528494305280","isPublish": true,"token": "aa.bb.Fx93qRLDHsrQPp8ab1C6Lg4_pnM"}}'
 
 
 def test_hump2underline():
